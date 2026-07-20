@@ -4,6 +4,7 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import Callout from '../../components/ui/Callout.astro';
 import Metric from '../../components/ui/Metric.astro';
 import Tag from '../../components/ui/Tag.astro';
+import Mermaid from '../../components/Mermaid.astro';
 
 export async function getStaticPaths() {
   const work = await getCollection('work');
@@ -32,7 +33,7 @@ const { title, summary, role, duration, team, stack, impact, constraints } = ent
     </ul>
   </Callout>
 
-  <Content />
+  <Content components={{ Mermaid }} />
 
   <Fragment slot="sidebar">
     <div class="space-y-6">

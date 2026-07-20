@@ -3,6 +3,7 @@ import { ArrowRight } from '@lucide/astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import { withBase } from '../../lib/url';
+import Mermaid from '../../components/Mermaid.astro';
 
 export async function getStaticPaths() {
   const architecture = await getCollection('architecture');
@@ -27,7 +28,7 @@ const relatedWorkEntry = relatedWork ? await getEntry('work', relatedWork) : und
     { label: title, href: `/architecture/${entry.id}` },
   ]}
 >
-  <Content />
+  <Content components={{ Mermaid }} />
 
   <Fragment slot="sidebar">
     {
