@@ -26,6 +26,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
   description={summary}
   type="article"
   publishedDate={date}
+  hasSidebar={false}
   breadcrumbs={[
     { label: 'Articles', href: '/articles' },
     { label: title, href: `/articles/${entry.id}` },

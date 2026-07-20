@@ -14,15 +14,23 @@ interface Props {
   breadcrumbs: Crumb[];
   type?: 'website' | 'article';
   publishedDate?: Date;
+  hasSidebar?: boolean;
 }
 
-const { title, description, breadcrumbs, type = 'website', publishedDate } = Astro.props;
+const {
+  title,
+  description,
+  breadcrumbs,
+  type = 'website',
+  publishedDate,
+  hasSidebar = true,
+} = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} type={type} publishedDate={publishedDate}>
   <Container as="article" class="py-16">
     <Breadcrumbs items={breadcrumbs} />
-    <div class="grid gap-12 lg:grid-cols-[1fr_280px]">
+    <div class:list={['grid gap-12', hasSidebar ? 'lg:grid-cols-[1fr_280px]' : 'mx-auto max-w-3xl']}>
       <div class="min-w-0">
         <h1 class="text-4xl font-semibold text-text-primary sm:text-5xl">{title}</h1>
         <p class="mt-4 text-lg text-text-secondary">{description}</p>
@@ -32,9 +40,13 @@ const { title, description, breadcrumbs, type = 'website', publishedDate } = Ast
           <slot />
         </div>
       </div>
-      <aside class="lg:sticky lg:top-24 lg:h-fit">
-        <slot name="sidebar" />
-      </aside>
+      {
+        hasSidebar && (
+          <aside class="lg:sticky lg:top-24 lg:h-fit">
+            <slot name="sidebar" />
+          </aside>
+        )
+      }
     </div>
   </Container>
 </BaseLayout>
