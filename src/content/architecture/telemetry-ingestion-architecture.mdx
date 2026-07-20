@@ -1,0 +1,40 @@
+---
+title: 'Telemetry Ingestion Architecture'
+summary: 'Decoupling ingestion from downstream processing using Kafka, AWS IoT Core, and Lambda.'
+order: 4
+relatedWork: 'telemetry-ingestion-pipeline'
+---
+
+## Summary
+
+This ADR documents the decision to introduce Apache Kafka as a decoupling layer between device telemetry ingestion and downstream analytics.
+
+## Problem
+
+Telemetry from tens of thousands of devices needed to feed multiple downstream consumers — analytics dashboards, alerting, predictive-maintenance models — each evolving on its own schedule. A direct point-to-point integration would have coupled ingestion to every consumer's availability and pace of change.
+
+## Decision
+
+Route device telemetry through AWS IoT Core into Kafka topics, with independent Lambda consumers per downstream use case.
+
+```mermaid
+flowchart LR
+    Devices[IoT Devices] --> IoTCore[AWS IoT Core]
+    IoTCore --> Kafka[Kafka Topics]
+    Kafka --> Analytics[Analytics Consumer]
+    Kafka --> Alerting[Alerting Consumer]
+    Kafka --> ML[ML Consumer]
+```
+
+## Trade-offs
+
+| Option | Pros | Cons |
+|---|---|---|
+| Direct integration per consumer | Simple for one consumer | Couples ingestion to every consumer's uptime |
+| Kafka as a decoupling layer (chosen) | Independent scaling, replay support | Additional operational component |
+
+## Lessons Learned
+
+The decoupling paid off the first time a new downstream use case (predictive maintenance) was added without touching the ingestion path at all. Replay support in Kafka also proved valuable for backfilling analytics after a downstream bug — data wasn't lost, it was just reprocessed.
+
+See the related case study: [Telemetry Ingestion Pipeline](/work/telemetry-ingestion-pipeline).

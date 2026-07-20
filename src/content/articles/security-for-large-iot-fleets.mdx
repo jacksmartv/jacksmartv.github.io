@@ -1,0 +1,25 @@
+---
+title: 'Security for Large IoT Fleets'
+summary: 'Why encryption, device authentication, and secure boot have to be designed in before the first device ships, not after.'
+date: 2024-01-22
+readingTime: '4 min'
+category: 'Security'
+---
+
+Retrofitting security onto an IoT fleet after it has already shipped is a fundamentally different problem than designing it in from the start. At a scale of tens of thousands of devices controlling public infrastructure, the difference isn't theoretical.
+
+## The retrofit problem
+
+Adding authentication and encryption to devices already deployed in the field means touching each one — physically, in many cases. At 50,000+ devices, that isn't a rollout, it's a multi-year project competing with every other priority the platform has.
+
+## Three layers, applied before device one
+
+The framework used here combined secure boot to reject tampered firmware, unique per-device authentication credentials, and end-to-end encryption for all traffic. Every device that joined the fleet after the framework existed inherited all three automatically — there was no "not yet secured" state to manage.
+
+## Public infrastructure changes the risk calculation
+
+A compromised device in a typical IoT product is a data or privacy problem. A compromised traffic-signal controller is a public-safety problem. That difference is what justified treating security as a launch requirement rather than a post-launch improvement.
+
+## The practical takeaway
+
+If a fleet is expected to grow past a few hundred devices, the cost of building the security framework in early is lower than the cost of retrofitting it once "a few hundred" becomes "tens of thousands."

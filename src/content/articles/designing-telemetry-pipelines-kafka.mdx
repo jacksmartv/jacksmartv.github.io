@@ -1,0 +1,25 @@
+---
+title: 'Designing Telemetry Pipelines with Kafka'
+summary: 'How decoupling ingestion from processing let a telemetry pipeline grow new consumers without touching the ingestion path.'
+date: 2023-11-18
+readingTime: '5 min'
+category: 'Distributed Systems'
+---
+
+A telemetry pipeline built for a single downstream consumer looks deceptively simple: devices publish, a service processes, done. That design breaks down the moment a second consumer — an alerting system, a predictive-maintenance model — needs the same data on its own schedule.
+
+## The coupling problem
+
+Point-to-point integration between device ingestion and each downstream consumer means the ingestion layer's reliability becomes dependent on every consumer it feeds. A slow consumer can back-pressure the whole pipeline. A new consumer means a change to the ingestion path itself.
+
+## Kafka as a boundary, not just a queue
+
+Routing device telemetry through AWS IoT Core into Kafka topics turned ingestion and processing into two independently deployable systems. Downstream consumers subscribe to topics; they don't get wired into the ingestion service directly. Adding predictive maintenance as a new consumer required zero changes to how devices published data.
+
+## Replay turned out to matter more than expected
+
+Kafka's retention meant that when a downstream analytics bug shipped, the fix was to reprocess the relevant window of messages — not to explain a permanent gap in the data. That wasn't the primary reason Kafka was chosen, but it became one of the most valuable properties in practice.
+
+## When this is overkill
+
+For a single consumer with no anticipated growth, a message queue or even direct integration is simpler and cheaper to operate. The decoupling investment paid off here specifically because the number and variety of downstream consumers was expected to grow — and did.

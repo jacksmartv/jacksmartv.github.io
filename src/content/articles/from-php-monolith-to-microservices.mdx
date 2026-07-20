@@ -1,0 +1,25 @@
+---
+title: 'From PHP Monolith to Microservices: 20 Years of Evolution'
+summary: 'Looking back at two decades of architecture shifts — from optimizing a single MySQL database to operating 200+ microservices.'
+date: 2024-05-30
+readingTime: '7 min'
+category: 'Engineering Leadership'
+---
+
+Twenty years in software engineering means living through several full cycles of "the way we build systems now." It's easy to describe those cycles in terms of technology — PHP to Java to Node, monoliths to microservices, servers to containers. The more useful lens is what problem each shift was actually solving.
+
+## The monolith years were about correctness under load
+
+Early e-commerce work was dominated by a single question: can this database survive Black Friday? Optimizing MySQL queries and reducing load times by half wasn't an architecture exercise — it was a very concrete constraint with a very concrete deadline every year.
+
+## Microservices solved an organizational problem, not just a technical one
+
+The move toward service-oriented architecture at scale — eventually 200+ microservices in a single platform — wasn't primarily about performance. It was about letting more engineers ship changes independently without stepping on each other. That's a coordination problem wearing an architecture costume.
+
+## IoT forced a different kind of thinking
+
+Building for tens of thousands of physically distributed devices introduced constraints that server-side web development never had to deal with: intermittent connectivity, physical security, and firmware that can't simply be redeployed with a `git push`. Edge computing wasn't a trend to adopt — it was the only design that survived contact with real infrastructure.
+
+## What's stayed constant
+
+Across every shift, the systems that held up in production were the boring ones: well-monitored, incrementally deployed, with a rollback path. The technology changed every few years. The discipline around how changes reach production didn't.

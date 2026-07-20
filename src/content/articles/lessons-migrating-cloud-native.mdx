@@ -1,0 +1,25 @@
+---
+title: 'Lessons from a Zero-Downtime Cloud-Native Migration'
+summary: 'What actually reduced risk when moving a 200+ microservices platform to AWS and Kubernetes — and what turned out not to matter.'
+date: 2024-03-12
+readingTime: '6 min'
+category: 'Cloud Architecture'
+---
+
+Migrating a platform to a cloud-native environment is usually described as a technology decision — move from X to Kubernetes, adopt Terraform, done. In practice, the technology choices were the easy part. The constraints that shaped this migration were operational: zero downtime, no budget increase, and a three-person team that still had to run the rest of the platform while the migration happened.
+
+## Incremental beats big-bang, even when it's slower
+
+The instinct with a large migration is to plan a cutover weekend. We didn't do that. Moving one service at a time behind existing routing meant every step had an isolated blast radius, and rollback meant reverting one service, not the whole platform. It took longer end-to-end. It also meant we never had a single high-stakes moment where the entire migration could fail at once.
+
+## Infrastructure as Code is a communication tool before it's an automation tool
+
+The value of writing every environment in Terraform showed up before any automation ran — it forced the team to agree, explicitly, on what production was supposed to look like. Configuration drift had been invisible until it was written down as code and reviewed like any other change.
+
+## Monitoring has to exist before the incident, not after
+
+Downtime dropped by 30% during the migration, and the biggest contributor wasn't Kubernetes — it was that every migrated service exposed metrics the same way through Prometheus and Grafana. On-call engineers stopped needing prior familiarity with a specific service to start diagnosing an incident.
+
+## What didn't matter as much as expected
+
+Kubernetes itself was less of a differentiator than the surrounding practices. A well-operated set of EC2 instances with the same CI/CD discipline and monitoring baseline would likely have delivered similar reliability gains. The platform benefits from Kubernetes now, at 200+ services, but it wasn't what made the migration safe.

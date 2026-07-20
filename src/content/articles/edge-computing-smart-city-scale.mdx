@@ -1,0 +1,25 @@
+---
+title: 'Edge Computing at Smart-City Scale'
+summary: 'Why device-local processing, not a faster cloud connection, was the answer to unreliable IoT connectivity.'
+date: 2023-09-04
+readingTime: '5 min'
+category: 'IoT & Edge Systems'
+---
+
+The first design for a smart-city monitoring platform assumed devices would stream continuously to the cloud. That assumption did not survive contact with real infrastructure — traffic signals and environmental sensors are deployed across a city, and connectivity at any given site cannot be assumed to be constant.
+
+## The failure mode that changed the design
+
+A cloud-only pipeline treats connectivity loss as data loss. For a handful of devices, that might be tolerable. At the scale of a citywide deployment, intermittent connectivity isn't an edge case — it's the normal operating condition for some fraction of the fleet at any given time.
+
+## Processing at the edge, not just collecting at the edge
+
+The fix wasn't a better network connection. It was moving processing to edge gateways that buffer telemetry locally and sync when connectivity returns, so a device going offline for an hour doesn't mean an hour of missing data.
+
+## Security followed naturally from the same boundary
+
+Once edge gateways existed as a trust boundary, they became the natural place to enforce device authentication, encryption, and secure boot — rather than trying to secure each of 50,000+ devices individually at the network edge.
+
+## The trade-off that was worth it
+
+Edge processing added components to build, secure, and operate compared to a cloud-only design. For a fleet at this scale and this level of physical distribution, that additional complexity was the cost of the platform actually being reliable in the environment it had to run in.

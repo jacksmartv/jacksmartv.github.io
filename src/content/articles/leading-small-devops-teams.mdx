@@ -1,0 +1,25 @@
+---
+title: 'Leading Small DevOps Teams Through Large Migrations'
+summary: 'Notes on running a platform migration with 2-3 engineers, where every hour of manual work is an hour not spent automating.'
+date: 2024-07-08
+readingTime: '5 min'
+category: 'Engineering Leadership'
+---
+
+Most writing about platform migrations assumes a team large enough to run the migration as a dedicated workstream. In practice, a lot of meaningful infrastructure work — including the cloud-native migration described elsewhere on this site — happens with two or three engineers who are also keeping the existing platform running.
+
+## Automation isn't optional when the team is small
+
+With three DevOps engineers responsible for a 200+ microservices environment, manual processes don't scale linearly with effort — they scale with headcount, which wasn't growing. Every recurring manual task was a candidate for automation, not because automation is a best practice in the abstract, but because it was the only way the team's capacity matched the platform's size.
+
+## Standards do the work that a bigger team would do with reviews
+
+A small team can't review every change the way a larger platform team might. What worked instead was investing early in clear standards — CI/CD as the only path to production, Terraform as the source of truth for infrastructure — so that consistency came from the process, not from someone catching deviations after the fact.
+
+## Mentoring at this scale looks different
+
+Leading two or three engineers isn't about org design — it's close, hands-on collaboration on real production problems. The most effective mentoring happened during incident response and architecture reviews, not in separate training sessions.
+
+## The honest trade-off
+
+A small team moves slower on any individual initiative than a larger one would. What it gains is shared context — everyone on a three-person team understands the whole platform, which turned out to matter more than raw throughput during a migration where judgment calls came up constantly.
