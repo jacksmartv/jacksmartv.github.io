@@ -1,6 +1,7 @@
 ---
 import { Menu } from '@lucide/astro';
 import Container from '../ui/Container.astro';
+import { withBase } from '../../lib/url';
 
 const navItems = [
   { href: '/work', label: 'Work' },
@@ -9,22 +10,20 @@ const navItems = [
   { href: '/principles', label: 'Principles' },
   { href: '/resume', label: 'Resume' },
 ];
-
-const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/');
 ---
 
 <header class="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur">
   <Container class="flex h-16 items-center justify-between">
-    <a href="/" class="font-display text-sm font-semibold text-text-primary">
+    <a href={withBase('/')} class="font-display text-sm font-semibold text-text-primary">
       Marcelo Santamaria
     </a>
     <nav class="hidden items-center gap-8 md:flex">
       {
         navItems.map((item) => {
-          const isActive = currentPath.startsWith(item.href);
+          const isActive = Astro.url.pathname.includes(item.href);
           return (
             <a
-              href={item.href}
+              href={withBase(item.href)}
               class:list={[
                 'text-sm transition-colors duration-150',
                 isActive ? 'text-accent' : 'text-text-secondary hover:text-text-primary',
@@ -51,7 +50,7 @@ const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/');
         {
           navItems.map((item) => (
             <a
-              href={item.href}
+              href={withBase(item.href)}
               class="rounded-md px-3 py-2 text-sm text-text-secondary transition-colors duration-150 hover:bg-card hover:text-text-primary"
             >
               {item.label}

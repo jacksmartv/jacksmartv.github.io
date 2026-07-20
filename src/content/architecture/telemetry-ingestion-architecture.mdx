@@ -36,5 +36,3 @@ flowchart LR
 ## Lessons Learned
 
 The decoupling paid off the first time a new downstream use case (predictive maintenance) was added without touching the ingestion path at all. Replay support in Kafka also proved valuable for backfilling analytics after a downstream bug — data wasn't lost, it was just reprocessed.
-
-See the related case study: [Telemetry Ingestion Pipeline](/work/telemetry-ingestion-pipeline).

@@ -3,6 +3,7 @@ import { ArrowRight } from '@lucide/astro';
 import Container from '../ui/Container.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 import { architecturePrinciples } from '../../data/profile';
+import { withBase } from '../../lib/url';
 
 const preview = architecturePrinciples.slice(0, 6);
 ---
@@ -12,7 +13,7 @@ const preview = architecturePrinciples.slice(0, 6);
     <div class="flex flex-wrap items-end justify-between gap-4">
       <SectionTitle eyebrow="Architecture Principles" title="What guides the decisions" />
       <a
-        href="/principles"
+        href={withBase('/principles')}
         class="flex items-center gap-2 text-sm text-accent transition-colors duration-150 hover:text-accent-hover"
       >
         View all principles

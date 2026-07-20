@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jacksmartv.github.io/portfolio/sitemap-index.xml
