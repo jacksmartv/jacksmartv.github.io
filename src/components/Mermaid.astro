@@ -1,0 +1,72 @@
+---
+interface Props {
+  code: string;
+  title: string;
+}
+
+const { code, title } = Astro.props;
+const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<figure
+  class="mermaid-diagram not-prose overflow-x-auto rounded-xl border border-border bg-panel p-6"
+  data-mermaid-id={id}
+  data-mermaid-code={code}
+  role="img"
+  aria-label={title}
+>
+  <div id={id}>
+    <pre class="font-mono text-xs text-text-muted">{code}</pre>
+  </div>
+  <figcaption class="sr-only">{title}</figcaption>
+</figure>
+
+<script>
+  import mermaid from 'mermaid';
+
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+    themeVariables: {
+      background: '#111214',
+      primaryColor: '#16181d',
+      primaryTextColor: '#fafafa',
+      primaryBorderColor: '#27272a',
+      lineColor: '#3b82f6',
+      secondaryColor: '#16181d',
+      tertiaryColor: '#111214',
+      textColor: '#a1a1aa',
+      mainBkg: '#16181d',
+      nodeBorder: '#27272a',
+      clusterBkg: '#111214',
+      clusterBorder: '#27272a',
+      edgeLabelBackground: '#111214',
+      fontSize: '14px',
+    },
+    flowchart: {
+      curve: 'basis',
+      htmlLabels: true,
+    },
+  });
+
+  async function renderDiagrams() {
+    const diagrams = document.querySelectorAll<HTMLElement>('.mermaid-diagram');
+
+    for (const diagram of diagrams) {
+      const id = diagram.dataset.mermaidId;
+      const code = diagram.dataset.mermaidCode;
+      const target = diagram.querySelector<HTMLElement>(`#${id}`);
+      if (!id || !code || !target) continue;
+
+      try {
+        const { svg } = await mermaid.render(`${id}-svg`, code);
+        target.innerHTML = svg;
+      } catch (error) {
+        console.error('Mermaid render failed', error);
+      }
+    }
+  }
+
+  renderDiagrams();
+</script>
