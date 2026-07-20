@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import { architecturePrinciples } from '../data/profile';
+---
+
+<BaseLayout
+  title="Principles"
+  description="The architecture principles that guide platform, cloud, and IoT design decisions."
+>
+  <Container class="py-16">
+    <SectionTitle
+      eyebrow="Principles"
+      title="Architecture principles"
+      description="These are not aspirational values — they're the defaults applied when weighing a trade-off."
+    />
+
+    <ol class="mt-12 space-y-8">
+      {
+        architecturePrinciples.map((principle, index) => (
+          <li class="flex gap-6 border-b border-border pb-8 last:border-b-0">
+            <span class="font-mono text-sm text-text-muted">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h2 class="text-xl font-semibold text-text-primary">{principle.title}</h2>
+              <p class="mt-2 text-text-secondary">{principle.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Container>
+</BaseLayout>

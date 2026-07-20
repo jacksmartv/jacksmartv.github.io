@@ -1,0 +1,111 @@
+---
+import { FileDown } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import Button from '../components/ui/Button.astro';
+import Tag from '../components/ui/Tag.astro';
+import {
+  profile,
+  experience,
+  education,
+  certifications,
+  skillCategories,
+} from '../data/profile';
+---
+
+<BaseLayout
+  title="Resume"
+  description={`${profile.name}'s resume — 20 years in platform engineering, cloud architecture, and IoT systems.`}
+>
+  <Container class="py-16">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionTitle eyebrow="Resume" title={profile.name} description={profile.title} />
+      <Button href={`${import.meta.env.BASE_URL}resume.pdf`}>
+        <FileDown class="h-4 w-4" aria-hidden="true" />
+        Download PDF
+      </Button>
+    </div>
+
+    <div class="mt-16 grid gap-16 lg:grid-cols-[1fr_320px]">
+      <div>
+        <h2 class="text-2xl font-semibold text-text-primary">Experience</h2>
+        <ol class="mt-8 space-y-12 border-l border-border pl-8">
+          {
+            experience.map((job) => (
+              <li class="relative">
+                <span class="absolute -left-[2.31rem] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-accent bg-bg" />
+                <p class="font-mono text-xs uppercase tracking-wider text-text-muted">
+                  {job.start} – {job.end}
+                </p>
+                <h3 class="mt-1 text-lg font-semibold text-text-primary">{job.role}</h3>
+                <p class="text-sm text-text-secondary">
+                  {job.company} · {job.location}
+                </p>
+                <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-text-secondary">
+                  {job.achievements.map((achievement) => (
+                    <li>{achievement}</li>
+                  ))}
+                </ul>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {job.technologies.map((tech) => (
+                    <Tag>{tech}</Tag>
+                  ))}
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <h2 class="mt-16 text-2xl font-semibold text-text-primary">Education</h2>
+        <div class="mt-6 space-y-4">
+          {
+            education.map((item) => (
+              <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-border pb-4">
+                <div>
+                  <p class="font-medium text-text-primary">{item.school}</p>
+                  <p class="text-sm text-text-secondary">{item.degree}</p>
+                </div>
+                <p class="font-mono text-xs text-text-muted">
+                  {item.start} – {item.end}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+
+        <h2 class="mt-16 text-2xl font-semibold text-text-primary">Certifications</h2>
+        <div class="mt-6 space-y-4">
+          {
+            certifications.map((item) => (
+              <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-border pb-4">
+                <p class="font-medium text-text-primary">{item.name}</p>
+                <p class="font-mono text-xs text-text-muted">
+                  {item.date} · {item.location}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <aside class="lg:sticky lg:top-24 lg:h-fit">
+        <h2 class="text-lg font-semibold text-text-primary">Skills</h2>
+        <div class="mt-6 space-y-6">
+          {
+            skillCategories.map((group) => (
+              <div>
+                <p class="font-mono text-xs uppercase tracking-wider text-text-muted">{group.category}</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <Tag>{skill}</Tag>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </aside>
+    </div>
+  </Container>
+</BaseLayout>

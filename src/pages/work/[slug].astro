@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import Callout from '../../components/ui/Callout.astro';
+import Metric from '../../components/ui/Metric.astro';
+import Tag from '../../components/ui/Tag.astro';
+
+export async function getStaticPaths() {
+  const work = await getCollection('work');
+  return work.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, role, duration, team, stack, impact, constraints } = entry.data;
+---
+
+<ArticleLayout
+  title={title}
+  description={summary}
+  breadcrumbs={[
+    { label: 'Work', href: '/work' },
+    { label: title, href: `/work/${entry.id}` },
+  ]}
+>
+  <Callout label="Constraints" class="not-prose mb-10">
+    <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-text-secondary">
+      {constraints.map((item) => <li>{item}</li>)}
+    </ul>
+  </Callout>
+
+  <Content />
+
+  <Fragment slot="sidebar">
+    <div class="space-y-6">
+      <div class="rounded-xl border border-border bg-panel p-6">
+        <p class="mb-3 font-mono text-xs uppercase tracking-wider text-text-muted">Overview</p>
+        <Metric label="Role" value={role} />
+        <Metric label="Duration" value={duration} />
+        <Metric label="Team" value={team} />
+      </div>
+
+      <div class="rounded-xl border border-border bg-panel p-6">
+        <p class="mb-3 font-mono text-xs uppercase tracking-wider text-text-muted">Stack</p>
+        <div class="flex flex-wrap gap-2">
+          {stack.map((tech: string) => <Tag>{tech}</Tag>)}
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-border bg-panel p-6">
+        <p class="mb-3 font-mono text-xs uppercase tracking-wider text-text-muted">Impact</p>
+        <ul class="space-y-2 text-sm text-text-secondary">
+          {impact.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </Fragment>
+</ArticleLayout>

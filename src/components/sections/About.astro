@@ -1,0 +1,35 @@
+---
+import Container from '../ui/Container.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
+import { profile } from '../../data/profile';
+---
+
+<section class="py-24">
+  <Container>
+    <div class="grid gap-12 lg:grid-cols-[auto_1fr] lg:items-start">
+      <div
+        class="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-border bg-panel font-display text-xl font-semibold text-text-secondary"
+        aria-hidden="true"
+      >
+        MS
+      </div>
+      <div>
+        <SectionTitle eyebrow="About" title="Solving business problems with platform engineering" />
+        <div class="mt-6 max-w-3xl space-y-4 text-lg text-text-secondary">
+          <p>
+            {profile.name} is a {profile.title.toLowerCase()} based in {profile.location}, with 20 years of
+            experience spanning full-stack development, cloud infrastructure, and platform automation.
+            The work has consistently centered on one question: how does a growing engineering
+            organization keep shipping reliably as its systems get more complex?
+          </p>
+          <p>
+            That question has shown up as a legacy-to-cloud-native migration for a 200+ microservices
+            platform, as a device-management layer for 50,000+ IoT devices monitoring public
+            infrastructure, and as the CI/CD and observability practices that let small teams operate
+            systems at that scale without growing headcount linearly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

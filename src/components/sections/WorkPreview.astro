@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import { ArrowRight } from '@lucide/astro';
+import Container from '../ui/Container.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
+import WorkCard from '../ui/WorkCard.astro';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="py-24">
+  <Container>
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <SectionTitle
+        eyebrow="Selected Work"
+        title="Case studies"
+        description="Problem, constraints, decision, result — the projects behind the architecture notes."
+      />
+      <a
+        href="/work"
+        class="flex items-center gap-2 text-sm text-accent transition-colors duration-150 hover:text-accent-hover"
+      >
+        View all work
+        <ArrowRight class="h-4 w-4" aria-hidden="true" />
+      </a>
+    </div>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      {
+        work.map((item) => (
+          <WorkCard
+            href={`/work/${item.id}`}
+            title={item.data.title}
+            summary={item.data.summary}
+            stack={item.data.stack}
+          />
+        ))
+      }
+    </div>
+  </Container>
+</section>

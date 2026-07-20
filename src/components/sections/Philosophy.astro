@@ -1,0 +1,18 @@
+---
+import Container from '../ui/Container.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
+import { engineeringPhilosophy } from '../../data/profile';
+---
+
+<section class="py-24">
+  <Container>
+    <SectionTitle eyebrow="Engineering Philosophy" title="How the work gets approached" />
+    <div class="mt-8 max-w-3xl space-y-6 border-l border-border pl-8">
+      {
+        engineeringPhilosophy.map((paragraph) => (
+          <p class="text-lg leading-relaxed text-text-secondary">{paragraph}</p>
+        ))
+      }
+    </div>
+  </Container>
+</section>

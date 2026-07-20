@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, date, readingTime, category } = entry.data;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<ArticleLayout
+  title={title}
+  description={summary}
+  type="article"
+  publishedDate={date}
+  breadcrumbs={[
+    { label: 'Articles', href: '/articles' },
+    { label: title, href: `/articles/${entry.id}` },
+  ]}
+>
+  <div class="not-prose mb-10 flex items-center gap-3 font-mono text-xs uppercase tracking-wider text-text-muted">
+    <span>{formattedDate}</span>
+    <span aria-hidden="true">·</span>
+    <span>{readingTime}</span>
+    <span aria-hidden="true">·</span>
+    <span class="text-accent">{category}</span>
+  </div>
+
+  <Content />
+</ArticleLayout>

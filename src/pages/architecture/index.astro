@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import SectionTitle from '../../components/ui/SectionTitle.astro';
+import ArchitectureCard from '../../components/ui/ArchitectureCard.astro';
+
+const architecture = (await getCollection('architecture')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Architecture"
+  description="Lightweight RFCs documenting platform architecture decisions — problem, decision, trade-offs, and lessons learned."
+>
+  <Container class="py-16">
+    <SectionTitle
+      eyebrow="Architecture"
+      title="Decision records"
+      description="Each ADR documents a real architectural decision — the trade-offs considered, not just the outcome chosen."
+    />
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        architecture.map((item) => (
+          <ArchitectureCard href={`/architecture/${item.id}`} title={item.data.title} summary={item.data.summary} />
+        ))
+      }
+    </div>
+  </Container>
+</BaseLayout>

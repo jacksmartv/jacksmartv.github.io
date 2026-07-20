@@ -1,5 +1,5 @@
 ---
-import { Linkedin, Github, Mail } from '@lucide/astro';
+import { Link, GitFork, Mail } from '@lucide/astro';
 import Container from '../ui/Container.astro';
 import { profile } from '../../data/profile';
 
@@ -25,7 +25,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', {
             rel="noopener noreferrer"
             class="flex items-center gap-2 text-sm text-text-secondary transition-colors duration-150 hover:text-accent"
           >
-            <Linkedin class="h-4 w-4" aria-hidden="true" />
+            <Link class="h-4 w-4" aria-hidden="true" />
             LinkedIn
           </a>
           <a
@@ -34,7 +34,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', {
             rel="noopener noreferrer"
             class="flex items-center gap-2 text-sm text-text-secondary transition-colors duration-150 hover:text-accent"
           >
-            <Github class="h-4 w-4" aria-hidden="true" />
+            <GitFork class="h-4 w-4" aria-hidden="true" />
             GitHub
           </a>
           <a
