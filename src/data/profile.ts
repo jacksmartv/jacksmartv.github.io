@@ -28,6 +28,14 @@ export const platformSnapshot = [
   { label: 'Leadership', value: 'Technical Mentoring' },
 ] as const;
 
+export const selectedAchievements = [
+  'Architected a multi-tenant AWS EKS platform running 500+ Kubernetes deployments across 3 availability zones.',
+  'Resolved a cluster-wide resource quota overcommit, right-sizing capacity allocation across 100+ namespaces.',
+  'Built centralized device management for 50,000+ IoT devices across a smart-city deployment.',
+  'Designed real-time telemetry pipelines on Kafka, AWS IoT Core, and Lambda for a live IoT platform.',
+  'Provided technical leadership and mentorship for platform teams at TicketSocket/Halo Media and Globant.',
+] as const;
+
 export const engineeringPhilosophy = [
   "I build platforms that make engineering teams more productive, not just applications that work. A cloud migration or a CI/CD pipeline is only successful if it reduces the cognitive load on the people who operate it every day.",
   'Good architecture is a balance between simplicity, scalability, and operational excellence. The best systems I have shipped were not the most sophisticated — they were the ones that stayed boring, observable, and easy to change under real production pressure.',

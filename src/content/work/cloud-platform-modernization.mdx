@@ -5,7 +5,7 @@ order: 1
 role: 'Platform & Cloud Architect'
 duration: 'Oct 2022 – Present'
 team: '3 engineers'
-stack: ['AWS EKS', 'Kubernetes', 'KEDA', 'Aurora Serverless v2', 'Kafka/MSK', 'Terraform']
+stack: ['AWS EKS', 'Kubernetes', 'KEDA', 'ArgoCD', 'Aurora Serverless v2', 'Kafka/MSK', 'Terraform']
 impact: ['500+ Kubernetes deployments', '100+ namespaces right-sized', '3 availability zones']
 problem: 'A multi-tenant SaaS ticketing platform needed a Kubernetes platform that could keep evolving under continuous software delivery, not just run infrastructure — while a growing namespace count quietly overcommitted cluster resources.'
 constraints: ['Multi-tenant workloads sharing cluster capacity', 'Continuous delivery cadence, not a one-time migration', 'Resource overcommit only visible cluster-wide, not per namespace', 'Small platform team responsible for hundreds of workloads']
@@ -44,6 +44,10 @@ flowchart LR
 ### Trade-offs
 
 Right-sizing per namespace took longer than an across-the-board capacity bump would have, but a blanket fix would have masked the same overcommit resurfacing as the platform kept growing — the per-namespace audit was what made the fix durable instead of temporary.
+
+## Platform Footprint
+
+A snapshot of one EKS cluster in this environment: 672 pods (669 running) across 542 deployments and 120 namespaces, spread over 17 nodes in 3 availability zones. Autoscaling runs through 36 KEDA ScaledObjects. Data and messaging sit on 4 Aurora Serverless v2 clusters (8 instances) and a 3-broker MSK cluster. Delivery runs through ArgoCD, and cluster metrics are collected with Victoria Metrics.
 
 ## Result
 

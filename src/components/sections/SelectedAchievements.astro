@@ -1,0 +1,22 @@
+---
+import { CircleCheckBig } from '@lucide/astro';
+import Container from '../ui/Container.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
+import { selectedAchievements } from '../../data/profile';
+---
+
+<section class="py-8">
+  <Container>
+    <SectionTitle eyebrow="Selected Achievements" title="What the work has produced" />
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      {
+        selectedAchievements.map((item) => (
+          <li class="flex items-start gap-3 text-text-secondary">
+            <CircleCheckBig class="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>
