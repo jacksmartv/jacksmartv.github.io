@@ -1,54 +1,56 @@
 ---
 title: 'Cloud Platform Modernization'
-summary: 'Migrating a legacy platform to a cloud-native environment on AWS and Kubernetes, without sacrificing availability.'
+summary: 'Architecting a multi-tenant AWS EKS platform running 500+ Kubernetes deployments across 3 availability zones for a high-demand SaaS ticketing platform.'
 order: 1
-role: 'Lead DevOps Architect'
+role: 'Platform & Cloud Architect'
 duration: 'Oct 2022 – Present'
 team: '3 engineers'
-stack: ['AWS EC2', 'AWS S3', 'AWS RDS', 'Kubernetes', 'Terraform', 'Jenkins', 'GitLab CI']
-impact: ['32% faster deployments', '30% less downtime', '200+ microservices supported']
-problem: 'A platform running on legacy infrastructure needed to move to a cloud-native environment without interrupting a 200+ microservices production system.'
-constraints: ['Multiple live environments', 'Zero-downtime requirement', 'No increase in operating budget', 'Small platform team']
+stack: ['AWS EKS', 'Kubernetes', 'KEDA', 'Aurora Serverless v2', 'Kafka/MSK', 'Terraform']
+impact: ['500+ Kubernetes deployments', '100+ namespaces right-sized', '3 availability zones']
+problem: 'A multi-tenant SaaS ticketing platform needed a Kubernetes platform that could keep evolving under continuous software delivery, not just run infrastructure — while a growing namespace count quietly overcommitted cluster resources.'
+constraints: ['Multi-tenant workloads sharing cluster capacity', 'Continuous delivery cadence, not a one-time migration', 'Resource overcommit only visible cluster-wide, not per namespace', 'Small platform team responsible for hundreds of workloads']
 ---
 
 ## Problem
 
-The platform had grown into a 200+ microservices environment running on infrastructure that was managed largely by hand. Deployments were slow and error-prone, incident response depended on tribal knowledge, and the lack of infrastructure as code made every environment subtly different from the next. None of this was sustainable at the scale the business was targeting.
+TicketSocket operates a multi-tenant SaaS platform supporting high-demand ticketing operations and continuous software delivery. The work here is less about a single migration and more about continuously evolving a live platform: an AWS EKS cluster running hundreds of production workloads across 500+ Kubernetes deployments and 3 availability zones, with cloud-native data and messaging infrastructure underneath it — Aurora Serverless v2 and Kafka/MSK.
+
+As the namespace count grew past 100, a cluster-wide resource quota overcommit had become invisible at the individual-namespace level: capacity allocation no longer matched real usage, which put both reliability and cost efficiency at risk.
 
 ## Constraints
 
-- Multiple environments (dev, staging, production) had to stay in sync during the migration.
-- Zero downtime was non-negotiable — this was a revenue-generating platform.
-- No budget increase was available to fund the migration; it had to be absorbed by the existing team.
-- The DevOps team consisted of 3 engineers, which ruled out any approach that required constant manual intervention.
+- Workloads from many tenants share the same cluster capacity, so a fix couldn't just move the problem to a different namespace.
+- This wasn't a one-time cutover — the platform needed to keep shipping continuously while the fix rolled out.
+- The overcommit was only visible in aggregate, cluster-wide; the root cause required tracing it back to per-namespace allocation.
+- A team of 3 engineers is responsible for hundreds of production workloads, which ruled out any fix that required manual, ongoing intervention.
 
 ## Decision
 
-The migration was designed around three pillars:
+Event-driven autoscaling via KEDA was already in place to match workload demand, but the quota overcommit needed a structural fix, not a scaling tweak:
 
-1. **Infrastructure as Code first.** Every environment was rebuilt in Terraform before any workload moved, so the target state was reviewable and repeatable rather than tribal knowledge.
-2. **Immutable, incremental deployments.** Services moved to Kubernetes one at a time behind existing traffic routing, so each migration step had an isolated blast radius and a clear rollback path.
-3. **CI/CD as the single path to production.** Jenkins and GitLab pipelines became the only way to ship — removing manual deploys eliminated an entire class of configuration drift.
+1. **Trace the overcommit to its source.** Aggregate resource requests across 100+ namespaces were audited against actual usage to find where allocation had drifted from reality.
+2. **Right-size capacity allocation per namespace.** Requests and limits were recalculated per tenant workload instead of applying a blanket cluster-wide adjustment.
+3. **Keep data and messaging infrastructure cloud-native.** Aurora Serverless v2 and Kafka/MSK stayed the backbone for multi-tenant data and event flow throughout, so the fix didn't require re-architecting the data layer.
 
 ```mermaid
 flowchart LR
-    Dev[Developer Push] --> CI[Jenkins / GitLab CI]
-    CI --> Build[Build & Test]
-    Build --> IaC[Terraform Apply]
-    IaC --> K8s[Kubernetes Cluster]
-    K8s --> Monitor[Prometheus / Grafana]
+    Push[Continuous Delivery] --> EKS[AWS EKS Cluster]
+    EKS --> KEDA[KEDA Autoscaling]
+    EKS --> Namespaces[100+ Namespaces]
+    Namespaces --> Aurora[Aurora Serverless v2]
+    Namespaces --> Kafka[Kafka / MSK]
 ```
 
 ### Trade-offs
 
-Moving one service at a time was slower than a big-bang cutover, but it kept rollback cheap and made it possible to validate reliability improvements incrementally instead of betting the whole migration on a single cutover weekend.
+Right-sizing per namespace took longer than an across-the-board capacity bump would have, but a blanket fix would have masked the same overcommit resurfacing as the platform kept growing — the per-namespace audit was what made the fix durable instead of temporary.
 
 ## Result
 
-- **32% reduction** in deployment time after standardizing the CI/CD pipeline.
-- **30% reduction** in downtime, driven by consistent monitoring and incident response practices established alongside the migration.
-- Zero unplanned outages attributable to the migration itself — every cutover had a tested rollback path.
+- Cluster-wide resource quota overcommit resolved, with capacity allocation right-sized across 100+ namespaces.
+- Platform continues to run 500+ Kubernetes deployments across 3 availability zones without the reliability risk the overcommit had introduced.
+- Cost efficiency improved as a direct result of allocation matching real usage instead of accumulated drift.
 
 ## Lessons Learned
 
-Infrastructure as Code pays for itself the first time an environment needs to be rebuilt from scratch, not the first time it's written. The biggest reliability gains came less from Kubernetes itself and more from the discipline the migration forced onto version control, monitoring, and incident management.
+Resource overcommit in a multi-tenant cluster is easy to miss because it's invisible in aggregate metrics — the cluster can look healthy while individual namespaces are already over-allocated. The fix that held was the one that traced the problem to its source per namespace, not the one that treated the symptom cluster-wide.

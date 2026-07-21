@@ -1,39 +1,39 @@
 ---
-title: 'Cloud-Native Migration Strategy'
-summary: 'How a legacy platform moved to AWS and Kubernetes incrementally, with zero downtime and no budget increase.'
+title: 'Multi-Tenant Kubernetes Capacity Strategy'
+summary: 'How a cluster-wide resource quota overcommit across 100+ namespaces got traced to its source and fixed without disrupting continuous delivery.'
 order: 1
 relatedWork: 'cloud-platform-modernization'
 ---
 
 ## Summary
 
-This ADR documents the strategy used to migrate a 200+ microservices platform from legacy infrastructure to a cloud-native environment on AWS and Kubernetes, without service interruption.
+This ADR documents the strategy used to resolve a cluster-wide resource quota overcommit on a multi-tenant AWS EKS platform running 500+ Kubernetes deployments, without pausing continuous software delivery.
 
 ## Problem
 
-The existing infrastructure was managed manually, with configuration drift between environments and no reliable way to reproduce production from source. Every deployment carried avoidable risk.
+Aggregate cluster metrics looked healthy, but capacity allocation across 100+ namespaces had drifted from actual usage over time. The overcommit was invisible at the cluster level and only became traceable once usage was audited per namespace.
 
 ## Decision
 
-Migrate incrementally, service by service, with infrastructure defined in Terraform before any workload moves, and CI/CD as the only path to production.
+Audit resource requests and limits per namespace against real usage, then right-size allocation tenant by tenant — rather than applying a single cluster-wide capacity adjustment.
 
 ```mermaid
 flowchart LR
-    Legacy[Legacy Infra] -->|1 service at a time| K8s[Kubernetes]
-    Terraform[Terraform Definitions] --> K8s
-    CI[CI/CD Pipeline] --> K8s
-    K8s --> Monitoring[Prometheus / Grafana]
+    Cluster[EKS Cluster] --> Audit[Per-Namespace Audit]
+    Audit --> RightSize[Right-Sized Requests/Limits]
+    RightSize --> KEDA[KEDA Autoscaling]
+    KEDA --> Workloads[Production Workloads]
 ```
 
 ## Trade-offs
 
 | Option | Pros | Cons |
 |---|---|---|
-| Big-bang cutover | Faster overall | High blast radius, hard rollback |
-| Incremental migration (chosen) | Isolated risk, easy rollback | Slower, requires dual-running |
+| Cluster-wide capacity bump | Fast to apply | Masks the overcommit, resurfaces as the platform grows |
+| Per-namespace right-sizing (chosen) | Fixes the actual source, durable | Slower, requires auditing 100+ namespaces individually |
 
-Incremental migration was chosen because zero downtime was a hard requirement and the team size (3 engineers) made a single high-stakes cutover too risky to operate.
+Per-namespace right-sizing was chosen because a blanket fix would have hidden the same overcommit reappearing at the next growth stage, not resolved it.
 
 ## Lessons Learned
 
-The value of Infrastructure as Code showed up most clearly the first time an environment needed to be rebuilt from scratch — at that point, the Terraform definitions were the actual source of truth, not a document describing what production was supposed to look like.
+Resource overcommit in a multi-tenant cluster hides in aggregate metrics — the cluster can report healthy while individual namespaces are already over-allocated. Tracing the problem to its source per namespace was slower than a blanket fix, but it was the version of the fix that actually held.

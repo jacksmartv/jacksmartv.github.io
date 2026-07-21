@@ -1,25 +1,25 @@
 ---
-title: 'Lessons from a Zero-Downtime Cloud-Native Migration'
-summary: 'What actually reduced risk when moving a 200+ microservices platform to AWS and Kubernetes — and what turned out not to matter.'
+title: 'What a Cluster-Wide Overcommit Taught Me About Multi-Tenant Kubernetes'
+summary: 'Tracing a resource quota overcommit across 100+ namespaces on a multi-tenant EKS platform — and what actually made the fix durable.'
 date: 2024-03-12
 readingTime: '6 min'
 category: 'Cloud Architecture'
 ---
 
-Migrating a platform to a cloud-native environment is usually described as a technology decision — move from X to Kubernetes, adopt Terraform, done. In practice, the technology choices were the easy part. The constraints that shaped this migration were operational: zero downtime, no budget increase, and a three-person team that still had to run the rest of the platform while the migration happened.
+A multi-tenant Kubernetes cluster can report healthy at the aggregate level while individual namespaces are already over-allocated. That's the failure mode that showed up on a platform running 500+ Kubernetes deployments across 3 availability zones: cluster-wide metrics looked fine, but capacity allocation had drifted from real usage as the namespace count grew past 100.
 
-## Incremental beats big-bang, even when it's slower
+## Aggregate health metrics hide per-tenant drift
 
-The instinct with a large migration is to plan a cutover weekend. We didn't do that. Moving one service at a time behind existing routing meant every step had an isolated blast radius, and rollback meant reverting one service, not the whole platform. It took longer end-to-end. It also meant we never had a single high-stakes moment where the entire migration could fail at once.
+The instinct when cluster metrics look fine is to assume capacity planning is fine too. It isn't necessarily. Resource requests and limits accumulate per namespace over time, and a cluster-wide view averages that drift away. The overcommit only became visible once usage was audited namespace by namespace.
 
-## Infrastructure as Code is a communication tool before it's an automation tool
+## A blanket fix would have masked the problem, not solved it
 
-The value of writing every environment in Terraform showed up before any automation ran — it forced the team to agree, explicitly, on what production was supposed to look like. Configuration drift had been invisible until it was written down as code and reviewed like any other change.
+The tempting fix is a cluster-wide capacity bump — it's fast and it makes the symptom go away immediately. It also doesn't touch the actual cause: allocation that no longer matches usage at the tenant level. That version of the fix would have resurfaced as the platform kept growing. Right-sizing per namespace took longer, but it addressed the source.
 
-## Monitoring has to exist before the incident, not after
+## Autoscaling and capacity planning are different problems
 
-Downtime dropped by 30% during the migration, and the biggest contributor wasn't Kubernetes — it was that every migrated service exposed metrics the same way through Prometheus and Grafana. On-call engineers stopped needing prior familiarity with a specific service to start diagnosing an incident.
+KEDA handled event-driven autoscaling for workload demand throughout this, and it kept working the whole time — autoscaling wasn't the issue. Capacity *allocation* was. It's easy to assume a good autoscaler means capacity planning takes care of itself; it doesn't, because autoscaling responds to load, not to whether the baseline requests and limits were ever correct.
 
-## What didn't matter as much as expected
+## What mattered more than the tooling
 
-Kubernetes itself was less of a differentiator than the surrounding practices. A well-operated set of EC2 instances with the same CI/CD discipline and monitoring baseline would likely have delivered similar reliability gains. The platform benefits from Kubernetes now, at 200+ services, but it wasn't what made the migration safe.
+Prometheus, Grafana, and CloudWatch gave visibility into the cluster, but the fix itself came from tracing the numbers back to individual namespaces, not from a new monitoring tool. The tooling made the investigation possible; the per-namespace audit is what made the fix hold.

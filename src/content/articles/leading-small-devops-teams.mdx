@@ -1,25 +1,29 @@
 ---
-title: 'Leading Small DevOps Teams Through Large Migrations'
-summary: 'Notes on running a platform migration with 2-3 engineers, where every hour of manual work is an hour not spent automating.'
+title: 'Leading Through Architecture, Not Headcount'
+summary: 'Notes on providing technical leadership for a 3-engineer team responsible for hundreds of production workloads on a multi-tenant Kubernetes platform.'
 date: 2024-07-08
 readingTime: '5 min'
 category: 'Engineering Leadership'
 ---
 
-Most writing about platform migrations assumes a team large enough to run the migration as a dedicated workstream. In practice, a lot of meaningful infrastructure work — including the cloud-native migration described elsewhere on this site — happens with two or three engineers who are also keeping the existing platform running.
+Most writing about platform leadership assumes a manager coordinating a team from the outside. A different shape of leadership shows up when a small team is responsible for a genuinely large platform: 3 DevOps engineers operating hundreds of production workloads across a multi-tenant AWS EKS platform, and leadership happening through architecture and hands-on execution rather than people management.
 
-## Automation isn't optional when the team is small
+## Staying close to the code and the incidents
 
-With three DevOps engineers responsible for a 200+ microservices environment, manual processes don't scale linearly with effort — they scale with headcount, which wasn't growing. Every recurring manual task was a candidate for automation, not because automation is a best practice in the abstract, but because it was the only way the team's capacity matched the platform's size.
+Leading through architecture means staying close to production, not one step removed from it. Leading technical investigation and resolution of complex production incidents — across distributed systems, databases, networking, and cloud infrastructure — is where architectural judgment actually gets exercised, and where the team sees it applied in real time rather than described in a document.
 
 ## Standards do the work that a bigger team would do with reviews
 
-A small team can't review every change the way a larger platform team might. What worked instead was investing early in clear standards — CI/CD as the only path to production, Terraform as the source of truth for infrastructure — so that consistency came from the process, not from someone catching deviations after the fact.
+A three-person team can't review every change the way a larger platform team might. What works instead is investing early in clear standards — established engineering conventions, a consistent monitoring stack, a single path to production — so consistency comes from the process, not from someone catching deviations after the fact.
 
 ## Mentoring at this scale looks different
 
-Leading two or three engineers isn't about org design — it's close, hands-on collaboration on real production problems. The most effective mentoring happened during incident response and architecture reviews, not in separate training sessions.
+Providing technical leadership and mentorship for 3 engineers isn't about org design — it's close, hands-on collaboration on real production problems, influencing architectural decisions as they come up rather than in separate training sessions.
+
+## Where AI fits into a small team's leverage
+
+AI-assisted engineering — GitHub Copilot, ChatGPT — accelerates troubleshooting and documentation for a small team carrying a large platform, but it doesn't replace judgment on what to fix or how. The engineering review and the final call stay with the person accountable for the outcome.
 
 ## The honest trade-off
 
-A small team moves slower on any individual initiative than a larger one would. What it gains is shared context — everyone on a three-person team understands the whole platform, which turned out to matter more than raw throughput during a migration where judgment calls came up constantly.
+A small team moves slower on any individual initiative than a larger one would. What it gains is shared context — everyone on a three-person team understands the whole platform, which matters more than raw throughput when the work is architectural judgment calls, not repeatable tasks.

@@ -22,7 +22,7 @@ export const heroHighlights = [
 export const platformSnapshot = [
   { label: 'Platform Engineering', value: '10+ years' },
   { label: 'Cloud Architecture', value: 'AWS · Kubernetes' },
-  { label: 'Enterprise Platforms', value: '200+ Microservices' },
+  { label: 'Kubernetes Platform', value: '500+ Deployments' },
   { label: 'IoT Systems', value: '50,000+ Devices' },
   { label: 'Infrastructure', value: 'Terraform · CI/CD' },
   { label: 'Leadership', value: 'Technical Mentoring' },
@@ -88,93 +88,93 @@ export const architecturePrinciples = [
 
 export const technicalLeadership = [
   {
-    title: 'Architecture Reviews & Platform Standards',
+    title: 'Architecture-Led, Not People Management',
     description:
-      'Defined platform-wide standards for deployment, CI/CD, and infrastructure conventions across a 200+ microservices environment at Halo Media.',
+      'Leads through architecture and hands-on execution — staying close to code, infrastructure, and production systems while guiding the engineers around it.',
   },
   {
     title: 'Mentoring & Team Leadership',
     description:
-      'Led a team of 3 DevOps engineers at Halo Media and 2 engineers on IoT solutions at Globant, building a culture of automation and continuous learning.',
+      'Provides technical leadership and mentorship for a team of 3 DevOps engineers at TicketSocket/Halo Media, and led 2 engineers on IoT solutions at Globant.',
   },
   {
-    title: 'Cloud Governance & Security Reviews',
+    title: 'Production Incident Leadership',
     description:
-      'Established IAM, OAuth/SSO, and vulnerability-scanning practices as part of a DevSecOps approach to platform security.',
+      'Leads technical investigation and resolution of complex production incidents across distributed systems, databases, networking, and cloud infrastructure — driving long-term architectural fixes instead of temporary patches.',
   },
   {
-    title: 'Infrastructure Strategy',
+    title: 'AI-Assisted Engineering',
     description:
-      'Drove the decision to migrate legacy systems to a cloud-native environment on AWS, balancing availability, disaster recovery, and delivery speed.',
+      'Uses AI-assisted engineering (GitHub Copilot, ChatGPT) to accelerate troubleshooting and documentation, while keeping engineering judgment and final review in-house.',
   },
 ] as const;
 
 export const skillCategories = [
   {
     category: 'Cloud',
-    skills: ['AWS', 'Azure', 'Google Cloud Platform'],
+    skills: ['AWS', 'Azure'],
   },
   {
     category: 'Backend',
-    skills: ['Node.js', 'PHP', 'Java', 'Python', 'Ruby'],
+    skills: ['Node.js', 'TypeScript', 'JavaScript', 'Python', 'Java', 'PHP', 'SQL'],
   },
   {
-    category: 'Architecture',
-    skills: ['Microservices', 'Event-Driven Systems', 'RESTful APIs', 'Edge Computing'],
+    category: 'Containers',
+    skills: ['Kubernetes (Amazon EKS)', 'Docker', 'OpenShift', 'KEDA'],
   },
   {
     category: 'Infrastructure as Code',
-    skills: ['Terraform', 'CloudFormation', 'Ansible', 'Puppet', 'Chef'],
+    skills: ['Terraform', 'CloudFormation', 'Ansible'],
   },
   {
-    category: 'Containerization',
-    skills: ['Docker', 'Kubernetes', 'OpenShift'],
+    category: 'Databases',
+    skills: ['PostgreSQL', 'Aurora', 'MySQL', 'MongoDB', 'Redis'],
   },
   {
-    category: 'Monitoring & Observability',
-    skills: ['Prometheus', 'Grafana', 'ELK Stack', 'Nagios'],
+    category: 'Messaging',
+    skills: ['Kafka / Amazon MSK'],
   },
   {
-    category: 'IoT',
-    skills: ['Apache Kafka', 'AWS IoT Core', 'AWS Lambda', 'Edge Computing'],
+    category: 'CI/CD',
+    skills: ['GitHub Actions', 'GitHub', 'GitLab CI', 'Jenkins'],
   },
   {
-    category: 'Security',
-    skills: ['DevSecOps', 'AWS IAM', 'OAuth', 'SSO', 'Vulnerability Scanning'],
+    category: 'Observability',
+    skills: ['Prometheus', 'Grafana', 'ELK', 'CloudWatch'],
   },
 ] as const;
 
 export const experience = [
   {
-    company: 'Halo Media',
+    company: 'TicketSocket (contracted through Halo Media)',
     location: 'USA',
-    role: 'Lead DevOps Architect – Security Manager',
+    role: 'Platform & Cloud Architect',
     start: 'Oct 2022',
     end: 'Present',
     achievements: [
-      'Spearheaded the architecture and deployment of scalable cloud infrastructure on AWS and Kubernetes, supporting a 200+ microservices environment.',
-      'Led a team of 3 DevOps engineers, building a culture of collaboration, continuous learning, and automation.',
-      'Designed and implemented CI/CD pipelines with Jenkins, GitLab, and Terraform, reducing deployment times by 32% and improving release frequency.',
-      'Drove the migration of legacy systems to a cloud-native environment, ensuring high availability and disaster recovery through AWS EC2, S3, and RDS.',
-      'Established best practices for version control, monitoring, and incident management, reducing downtime by 30%.',
+      'Architect and evolve a multi-tenant AWS EKS platform running 500+ Kubernetes deployments across 3 availability zones, supporting hundreds of production workloads with event-driven autoscaling via KEDA.',
+      'Design and operate cloud-native data and messaging infrastructure — Aurora Serverless v2 (MySQL and PostgreSQL) and Kafka/MSK — underpinning a distributed, multi-tenant SaaS architecture.',
+      'Identified and resolved a cluster-wide resource quota overcommit, right-sizing capacity allocation across 100+ namespaces to improve reliability and cost efficiency.',
+      'Lead technical investigation and resolution of complex production incidents across distributed systems, databases, networking, and cloud infrastructure, driving long-term architectural fixes instead of temporary patches.',
+      'Architect solutions hands-on while providing technical leadership and mentorship for a team of 3 DevOps engineers, influencing architectural decisions and establishing engineering standards.',
+      'Use AI-assisted engineering (GitHub Copilot, ChatGPT) to accelerate troubleshooting and documentation, while keeping engineering judgment and final review in-house.',
     ],
-    technologies: ['AWS', 'Kubernetes', 'Terraform', 'Jenkins', 'GitLab CI', 'Prometheus', 'Grafana'],
+    technologies: ['AWS EKS', 'Kubernetes', 'KEDA', 'Aurora Serverless v2', 'Kafka/MSK', 'Terraform'],
   },
   {
     company: 'Globant',
     location: 'Argentina / Uruguay',
-    role: 'Senior Software Designer – IoT Architect',
+    role: 'Senior Software Designer | Cloud & IoT Architect',
     start: 'Dec 2016',
     end: 'Oct 2022',
     achievements: [
-      'Designed and architected a smart-city IoT platform using edge computing, enabling real-time monitoring of traffic lights, waste management, and environmental sensors.',
-      'Led a team of 2 engineers building end-to-end IoT solutions for industrial automation, integrating IoT devices, AWS/Azure, and predictive-maintenance ML.',
-      'Developed and deployed a scalable device management system centrally controlling 50,000+ IoT devices across multiple locations.',
-      'Implemented IoT security frameworks — end-to-end encryption, device authentication, and secure boot.',
-      'Designed real-time data ingestion pipelines using Apache Kafka, AWS IoT Core, and AWS Lambda.',
       'Designed and implemented a RESTful API for an e-commerce platform, increasing transactional throughput by 15%.',
+      'Designed a smart-city IoT platform using edge computing for real-time monitoring of traffic lights, waste management, and environmental sensors.',
+      'Designed and built, hands-on, an IoT device management system giving centralized control over 50,000+ connected devices across multiple locations — guiding a team of 2 engineers through implementation and improving uptime and operational efficiency.',
+      'Implemented IoT security frameworks — end-to-end encryption, device authentication, secure boot — and real-time data pipelines using Kafka, AWS IoT Core, and AWS Lambda.',
+      'Worked across AWS and Azure cloud environments, participating in architecture reviews and technical decision-making for enterprise software delivery.',
     ],
-    technologies: ['Kafka', 'AWS IoT Core', 'AWS Lambda', 'Java', 'Spring Boot', 'Edge Computing'],
+    technologies: ['Kafka', 'AWS IoT Core', 'AWS Lambda', 'AWS', 'Azure', 'Edge Computing'],
   },
   {
     company: 'Zennovia',

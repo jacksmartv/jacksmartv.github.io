@@ -1,37 +1,37 @@
 ---
 title: 'Observability & Incident Management'
-summary: 'Building monitoring and incident-response practices that cut downtime by 30% during a cloud migration.'
+summary: 'Standardizing monitoring across a multi-tenant Kubernetes platform so incident response does not depend on prior familiarity with a specific workload.'
 order: 6
 relatedWork: 'cloud-platform-modernization'
 ---
 
 ## Summary
 
-This ADR documents the observability and incident-management practices established alongside the cloud-native migration at Halo Media.
+This ADR documents the observability and incident-management practices used to investigate and resolve production incidents across the multi-tenant EKS platform at TicketSocket.
 
 ## Problem
 
-Prior to the migration, incident response depended heavily on individual engineers' familiarity with specific services. There was no consistent monitoring baseline across the 200+ microservices environment, which made root-causing incidents slow and inconsistent.
+Distributed systems, databases, networking, and cloud infrastructure all contribute to production incidents on a multi-tenant platform. Without a consistent monitoring baseline, root-causing an incident depends on whoever is on call already knowing the specific workload involved.
 
 ## Decision
 
-Establish Prometheus and Grafana as the standard monitoring stack for every service migrating to Kubernetes, paired with documented incident-response practices and consistent version-control conventions.
+Standardize on Prometheus, Grafana, and CloudWatch as the monitoring stack across the platform, so every workload exposes metrics the same way regardless of which tenant or team owns it.
 
 ```mermaid
 flowchart LR
-    Services[Microservices] --> Prometheus[Prometheus]
+    Workloads[Production Workloads] --> Prometheus[Prometheus]
+    Workloads --> CloudWatch[CloudWatch]
     Prometheus --> Grafana[Grafana Dashboards]
-    Prometheus --> Alerts[Alerting]
-    Alerts --> OnCall[Incident Response]
+    Grafana --> OnCall[Incident Investigation]
 ```
 
 ## Trade-offs
 
 | Option | Pros | Cons |
 |---|---|---|
-| Per-service monitoring tools | Flexible per team | Inconsistent, hard to reason about system-wide |
-| Standardized stack (chosen) | Consistent incident response | Requires migration effort per service |
+| Per-team monitoring tools | Flexible per team | Inconsistent, hard to reason about system-wide |
+| Standardized stack (chosen) | Consistent incident response across tenants | Requires migration effort per workload |
 
 ## Lessons Learned
 
-Downtime dropped by 30% not because of a single tool, but because every service exposed metrics the same way — engineers on call no longer needed prior familiarity with a specific service to start diagnosing an incident.
+Complex production incidents that cross distributed systems, databases, networking, and infrastructure boundaries get resolved faster when the investigation doesn't start with "which team owns this and how do I read their dashboards." A consistent stack turns that into a non-question.
