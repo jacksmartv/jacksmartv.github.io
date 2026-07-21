@@ -5,9 +5,10 @@ interface Props {
   href: string;
   variant?: 'primary' | 'secondary';
   class?: string;
+  download?: boolean | string;
 }
 
-const { href, variant = 'primary', class: className } = Astro.props;
+const { href, variant = 'primary', class: className, download } = Astro.props;
 const resolvedHref = href.startsWith('/') ? withBase(href) : href;
 
 const base =
@@ -19,6 +20,6 @@ const variants = {
 };
 ---
 
-<a href={resolvedHref} class:list={[base, variants[variant], className]}>
+<a href={resolvedHref} download={download} class:list={[base, variants[variant], className]}>
   <slot />
 </a>
