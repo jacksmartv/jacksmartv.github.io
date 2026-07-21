@@ -10,7 +10,6 @@ import { remarkMermaid } from './src/lib/remark-mermaid.ts';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://jacksmartv.github.io',
-  base: '/portfolio',
   vite: {
     plugins: [tailwindcss()]
   },
