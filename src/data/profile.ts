@@ -98,7 +98,7 @@ export const technicalLeadership = [
   {
     title: 'Architecture-Led, Not People Management',
     description:
-      'Leads through architecture and hands-on execution — staying close to code, infrastructure, and production systems while guiding the engineers around it.',
+      'Leads through architecture and hands-on execution — staying close to code, infrastructure, and production systems while guiding the engineers on the team.',
   },
   {
     title: 'Mentoring & Team Leadership',
