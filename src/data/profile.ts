@@ -20,7 +20,7 @@ export const heroHighlights = [
 ] as const;
 
 export const platformSnapshot = [
-  { label: 'Platform Engineering', value: '20+ years' },
+  { label: 'Platform Engineering', value: '10+ years' },
   { label: 'Cloud Architecture', value: 'AWS · Kubernetes' },
   { label: 'Enterprise Platforms', value: '200+ Microservices' },
   { label: 'IoT Systems', value: '50,000+ Devices' },
