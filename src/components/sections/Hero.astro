@@ -2,6 +2,7 @@
 import { ArrowRight, FileDown } from '@lucide/astro';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
+import { withBase } from '../../lib/url';
 import { profile, heroHighlights, platformSnapshot } from '../../data/profile';
 ---
 
@@ -27,7 +28,7 @@ import { profile, heroHighlights, platformSnapshot } from '../../data/profile';
         }
       </ul>
 
-      <div class="mt-10 flex flex-wrap gap-4">
+      <div class="mt-10 flex flex-wrap items-center gap-4">
         <Button href="/resume">
           <FileDown class="h-4 w-4" aria-hidden="true" />
           Download Resume
@@ -36,6 +37,12 @@ import { profile, heroHighlights, platformSnapshot } from '../../data/profile';
           View Work
           <ArrowRight class="h-4 w-4" aria-hidden="true" />
         </Button>
+        <a
+          href={withBase('/about')}
+          class="text-sm text-text-secondary transition-colors duration-150 hover:text-text-primary"
+        >
+          More about me →
+        </a>
       </div>
     </div>
 
