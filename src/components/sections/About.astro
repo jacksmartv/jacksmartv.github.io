@@ -4,7 +4,7 @@ import SectionTitle from '../ui/SectionTitle.astro';
 import { profile } from '../../data/profile';
 ---
 
-<section class="py-24">
+<section class="py-8">
   <Container>
     <div class="grid gap-12 lg:grid-cols-[auto_1fr] lg:items-start">
       <div
@@ -17,16 +17,17 @@ import { profile } from '../../data/profile';
         <SectionTitle eyebrow="About" title="Solving business problems with platform engineering" />
         <div class="mt-6 max-w-3xl space-y-4 text-lg text-text-secondary">
           <p>
-            {profile.name} is a {profile.title.toLowerCase()} based in {profile.location}, with over a decade
-            of experience spanning full-stack development, cloud infrastructure, and platform automation.
-            The work has consistently centered on one question: how does a growing engineering
-            organization keep shipping reliably as its systems get more complex?
+            {profile.name} builds engineering platforms that let software teams move faster with
+            confidence. Based in {profile.location}, the work sits where software engineering, cloud
+            architecture, infrastructure, and production operations intersect — modernizing complex
+            systems, simplifying engineering workflows, and improving operational reliability.
           </p>
           <p>
-            That question has shown up as a legacy-to-cloud-native migration for a 200+ microservices
-            platform, as a device-management layer for 50,000+ IoT devices monitoring public
-            infrastructure, and as the CI/CD and observability practices that let small teams operate
-            systems at that scale without growing headcount linearly.
+            That has meant architecting a multi-tenant AWS EKS platform running 500+ Kubernetes
+            deployments across 3 availability zones, building a device-management layer for 50,000+ IoT
+            devices monitoring public infrastructure, and leading through architecture and hands-on
+            execution rather than people management — staying close to code, infrastructure, and
+            production systems while guiding the engineers around it.
           </p>
         </div>
       </div>
