@@ -8,6 +8,7 @@ export const profile = {
   email: 'jackpelorus@gmail.com',
   linkedin: 'https://linkedin.com/in/marcelo-santamaria-87792114',
   github: 'https://github.com/jacksmartv',
+  medium: 'https://medium.com/@jackpelorus',
 } as const;
 
 export const heroHighlights = [

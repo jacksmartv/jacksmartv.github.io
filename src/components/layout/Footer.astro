@@ -1,5 +1,5 @@
 ---
-import { Link, GitFork, Mail } from '@lucide/astro';
+import { Link, GitFork, Mail, Newspaper } from '@lucide/astro';
 import Container from '../ui/Container.astro';
 import { profile } from '../../data/profile';
 
@@ -36,6 +36,15 @@ const lastUpdated = new Date().toLocaleDateString('en-US', {
           >
             <GitFork class="h-4 w-4" aria-hidden="true" />
             GitHub
+          </a>
+          <a
+            href={profile.medium}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 text-sm text-text-secondary transition-colors duration-150 hover:text-accent"
+          >
+            <Newspaper class="h-4 w-4" aria-hidden="true" />
+            Medium
           </a>
           <a
             href={`mailto:${profile.email}`}
